@@ -49,8 +49,6 @@ MainFrame::MainFrame(wxWindow *parent, GofEngine *engine) :
     mEngine(engine)
 {
     SetIcon(wxICON(sample));
-    auto esize = mEngine->getSize();
-    // sheet_dots = Matrix(esize, std::vector<bool>(esize, false));
     mTimer.Start(100);
 }
 
@@ -118,11 +116,6 @@ void MainFrame::draw(wxDC&  dc)
         for ( auto j = 0 ; j < sheet_sz ; ++j )
         {
             auto cell_status = mEngine->getCell(i, j);
-        /*
-            if (sheet_dots[i][j] == cell_status)
-                continue;
-            sheet_dots[i][j] = cell_status;
-        */
             if (cell_status)
             {
                 // fill cell

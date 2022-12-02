@@ -48,8 +48,6 @@ class MainFrame : public MainFrameBase
 		
 	protected:
         GofEngine *mEngine{};
-        // Matrix sheet_dots;
-
 		void draw(wxDC&  dc);
 
 		// protected event handlers
