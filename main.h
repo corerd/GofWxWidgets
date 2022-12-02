@@ -51,10 +51,10 @@ class MainFrame : public MainFrameBase
 		void draw(wxDC&  dc);
 
 		// protected event handlers
-		virtual void OnCloseFrame( wxCloseEvent& event );
-		virtual void OnTimerTick( wxTimerEvent& event );
-		virtual void OnPaintEvent( wxPaintEvent& event );
-		virtual void OnEraseBackgroundEvent( wxEraseEvent& event );
+		void OnCloseFrame( wxCloseEvent& event ) override;
+		void OnTimerTick( wxTimerEvent& event ) override;
+		void OnPaintEvent( wxPaintEvent& event ) override;
+		void OnEraseBackgroundEvent( wxEraseEvent& event ) override;
 };
 
 #endif //__main__
