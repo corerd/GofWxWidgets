@@ -51,7 +51,6 @@ class MainFrame : public MainFrameBase
         // Matrix sheet_dots;
 
 		void draw(wxDC&  dc);
-		void paintNow();
 
 		// protected event handlers
 		virtual void OnCloseFrame( wxCloseEvent& event );

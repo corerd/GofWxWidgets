@@ -12,8 +12,10 @@
  * See: https://wiki.wxwidgets.org/Drawing_on_a_panel_with_a_DC
  *      https://forum.wxwidgets.org/viewtopic.php?p=204018
  * 
- * Flicker-free drawing on Windows
- * https://wiki.wxwidgets.org/Flicker-Free_Drawing
+ * Flicker-free drawing on Windows is achieved by a two step process:
+ *  - disable erase background event;
+ *  - use a double buffer.
+ * See: https://wiki.wxwidgets.org/Flicker-Free_Drawing
  *********************************************************************/
 
 #include "main.h"
@@ -69,7 +71,14 @@ void MainFrame::OnTimerTick( wxTimerEvent& event )
 }
 
 /**
- * Disable erase background event (Flicker-free drawing)
+ * Flicker-free drawing: disable erase background event
+ * 
+ * When wxWidgets wants to update the display it emits two events:
+ *  - an erase background event
+ *  - a paint event
+ * 
+ * Intercept the EVT_ERASE_BACKGROUND event and dont call event.Skip()
+ * to disable the erase background event.
  */
 void MainFrame::OnEraseBackgroundEvent( wxEraseEvent& event )
 {
@@ -81,29 +90,20 @@ void MainFrame::OnEraseBackgroundEvent( wxEraseEvent& event )
  * Called by the system of by wxWidgets when the panel needs
  * to be redrawn. You can also trigger this call by
  * calling Refresh().
+ * 
+ * Flicker-free drawing: using a double buffer.
+ * Draw to a bitmap instead of to the display and when complete,
+ * copy the bitmap to the display.
+ * There is the wxBufferedPaintDC class which is a direct replacement for wxPaintDC.
+ * 
+ * @todo: improve performance unrolling the wxBufferedPaintDC class and
+ * only create the bitmap during wxEVT_SIZE events.
  */
 void MainFrame::OnPaintEvent( wxPaintEvent& event )
 {
-    //wxPaintDC dc(mBoard);
-    wxBufferedPaintDC dc(mBoard); // Flicker-free drawing
-    draw(dc);
-}
-
-/*
- * Paint on the panel at any time
- =
- * Using this generally does not free you from catching paint events,
- * since it is possible that e.g. the window manager throws away your drawing
- * when the window comes to the background, and expects you will redraw it
- * when the window comes back (by sending a paint event).
- *
- * In most cases, this will not be needed at all; simply handling
- * paint events and calling Refresh() when a refresh is needed
- * will do the job.
- */
-void MainFrame::paintNow()
-{
-    wxClientDC dc(mBoard);
+    // Flicker-free drawing: wxPaintDC replaced by wxBufferedPaintDC
+    // wxPaintDC dc(mBoard);
+    wxBufferedPaintDC dc(mBoard);
     draw(dc);
 }
 
