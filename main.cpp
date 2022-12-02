@@ -48,6 +48,11 @@ MainFrame::MainFrame(wxWindow *parent, GofEngine *engine) :
     MainFrameBase( parent ),
     mEngine(engine)
 {
+    auto sheet_sz = mBoard->GetSize();
+    auto engine_sz = mEngine->getSize();
+    mCell_sz.x = sheet_sz.x / engine_sz;
+    mCell_sz.y = sheet_sz.y / engine_sz;
+
     SetIcon(wxICON(sample));
     mTimer.Start(100);
 }
@@ -128,7 +133,7 @@ void MainFrame::draw(wxDC&  dc)
                 dc.SetPen(wxColour(255,255,255));
                 dc.SetBrush(wxColour(255,255,255));
             }
-            dc.DrawRectangle(i*CELL_SZ, j*CELL_SZ, CELL_SZ, CELL_SZ);
+            dc.DrawRectangle(i*mCell_sz.x, j*mCell_sz.y, mCell_sz.x, mCell_sz.y);
         }
     }
 }

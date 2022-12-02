@@ -16,12 +16,13 @@ MainFrameBase::MainFrameBase( wxWindow* parent, wxWindowID id, const wxString& t
 	wxBoxSizer* MainSizer;
 	MainSizer = new wxBoxSizer( wxVERTICAL );
 
-	mBoard = new wxPanel( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+	mBoard = new wxPanel( this, wxID_ANY, wxDefaultPosition, wxSize( 1000,1000 ), wxTAB_TRAVERSAL );
 	MainSizer->Add( mBoard, 1, wxEXPAND | wxALL, 5 );
 
 
 	this->SetSizer( MainSizer );
 	this->Layout();
+	MainSizer->Fit( this );
 	mTimer.SetOwner( this, wxID_ANY );
 
 	this->Centre( wxBOTH );
